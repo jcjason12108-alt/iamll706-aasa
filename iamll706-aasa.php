@@ -5,7 +5,7 @@
  * Description: Serves Apple's App Site Association (AASA) JSON at /.well-known/apple-app-site-association.
  * Version: 1.0.1
  * Requires at least: 6.0
- * Tested up to: 6.5
+ * Tested up to: 6.9.4
  * Requires PHP: 7.4
  * Author: Jason Cox
  * License: GPLv2 or later

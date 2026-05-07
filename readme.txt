@@ -2,7 +2,7 @@
 Contributors: iamll706
 Tags: apple-app-site-association, aasa, webcredentials, redirects, rewrite
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.9.4
 Requires PHP: 7.4
 Stable tag: 1.0.1
 License: GPLv2 or later
