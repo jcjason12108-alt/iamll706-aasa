@@ -3,7 +3,7 @@
  * Plugin Name: IAMLL706 AASA
  * Plugin URI: https://github.com/jcjason12108-alt/iamll706-aasa/
  * Description: Serves Apple's App Site Association (AASA) JSON at /.well-known/apple-app-site-association.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Requires at least: 6.0
  * Tested up to: 6.9.4
  * Requires PHP: 7.4
