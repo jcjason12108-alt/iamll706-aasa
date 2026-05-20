@@ -3,9 +3,9 @@
  * Plugin Name: IAMLL706 AASA
  * Plugin URI: https://github.com/jcjason12108-alt/iamll706-aasa/
  * Description: Serves Apple's App Site Association (AASA) JSON at /.well-known/apple-app-site-association.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Requires at least: 6.0
- * Tested up to: 6.9.4
+ * Tested up to: 7.0
  * Requires PHP: 7.4
  * Author: Jason Cox
  * License: GPLv2 or later
@@ -33,8 +33,13 @@ if (!defined('ABSPATH')) {
  * - JSON body only (no HTML, no redirects, no extra output)
  */
 
-const IAMLL706_AASA_QUERY_VAR = 'iamll706_aasa';
-const IAMLL706_AASA_ROUTE_REGEX = '^\.well-known/apple-app-site-association$';
+if (!defined('IAMLL706_AASA_QUERY_VAR')) {
+	define('IAMLL706_AASA_QUERY_VAR', 'iamll706_aasa');
+}
+
+if (!defined('IAMLL706_AASA_ROUTE_REGEX')) {
+	define('IAMLL706_AASA_ROUTE_REGEX', '^\.well-known/apple-app-site-association$');
+}
 
 require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
 
@@ -66,48 +71,60 @@ add_filter(
 	}
 );
 
-function iamll706_aasa_add_rewrite_rule() {
-	add_rewrite_rule(IAMLL706_AASA_ROUTE_REGEX, 'index.php?' . IAMLL706_AASA_QUERY_VAR . '=1', 'top');
-}
-
-function iamll706_aasa_add_query_var($vars) {
-	$vars[] = IAMLL706_AASA_QUERY_VAR;
-	return $vars;
-}
-
-function iamll706_aasa_disable_canonical_redirect($redirect_url) {
-	if (get_query_var(IAMLL706_AASA_QUERY_VAR)) {
-		return false;
+if (!function_exists('iamll706_aasa_add_rewrite_rule')) {
+	function iamll706_aasa_add_rewrite_rule() {
+		add_rewrite_rule(IAMLL706_AASA_ROUTE_REGEX, 'index.php?' . IAMLL706_AASA_QUERY_VAR . '=1', 'top');
 	}
-
-	return $redirect_url;
 }
 
-function iamll706_aasa_serve_json() {
-	if (!get_query_var(IAMLL706_AASA_QUERY_VAR)) {
-		return;
+if (!function_exists('iamll706_aasa_add_query_var')) {
+	function iamll706_aasa_add_query_var($vars) {
+		$vars[] = IAMLL706_AASA_QUERY_VAR;
+		return $vars;
 	}
-
-	$payload = [
-		'webcredentials' => [
-			'apps' => ['8VLBYL3SV8.org.iamll706.AskBruno'],
-		],
-	];
-
-	status_header(200);
-	header('Content-Type: application/json; charset=utf-8');
-	header('Cache-Control: public, max-age=3600');
-	echo json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-	exit;
 }
 
-function iamll706_aasa_activate() {
-	iamll706_aasa_add_rewrite_rule();
-	flush_rewrite_rules();
+if (!function_exists('iamll706_aasa_disable_canonical_redirect')) {
+	function iamll706_aasa_disable_canonical_redirect($redirect_url) {
+		if (get_query_var(IAMLL706_AASA_QUERY_VAR)) {
+			return false;
+		}
+
+		return $redirect_url;
+	}
 }
 
-function iamll706_aasa_deactivate() {
-	flush_rewrite_rules();
+if (!function_exists('iamll706_aasa_serve_json')) {
+	function iamll706_aasa_serve_json() {
+		if (!get_query_var(IAMLL706_AASA_QUERY_VAR)) {
+			return;
+		}
+
+		$payload = [
+			'webcredentials' => [
+				'apps' => ['8VLBYL3SV8.org.iamll706.AskBruno'],
+			],
+		];
+
+		status_header(200);
+		header('Content-Type: application/json; charset=utf-8');
+		header('Cache-Control: public, max-age=3600');
+		echo wp_json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		exit;
+	}
+}
+
+if (!function_exists('iamll706_aasa_activate')) {
+	function iamll706_aasa_activate() {
+		iamll706_aasa_add_rewrite_rule();
+		flush_rewrite_rules();
+	}
+}
+
+if (!function_exists('iamll706_aasa_deactivate')) {
+	function iamll706_aasa_deactivate() {
+		flush_rewrite_rules();
+	}
 }
 
 add_action('init', 'iamll706_aasa_add_rewrite_rule');

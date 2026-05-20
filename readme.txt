@@ -2,9 +2,9 @@
 Contributors: iamll706
 Tags: apple-app-site-association, aasa, webcredentials, redirects, rewrite
 Requires at least: 6.0
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,11 @@ It serves the AASA file at `https://your-domain.com/.well-known/apple-app-site-a
 No. The endpoint returns only JSON with the correct `application/json` content type.
 
 == Changelog ==
+
+= 1.0.3 =
+* Confirmed WordPress 7.0 metadata and PHP 7.4 support.
+* Added duplicate declaration guards for plugin constants and functions.
+* Switched AASA JSON output to WordPress' JSON encoder.
 
 = 1.0.2 =
 * Bumped plugin version so GitHub branch-based update checks can detect this update.
